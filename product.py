@@ -8,8 +8,6 @@ CS121 HW3 2017
 
 
 
-
-
 """
 
 
@@ -40,16 +38,7 @@ def write_NAND_line(f,line):
     f.write("%s\n" % line)
 
 '''
-Implement a function that takes a number
-and adds a special prefix to it
-'''
-def get_array_name(counter):
-    return "col_" + str(counter)
-
-
-
-'''
-Implement a function that takes a number
+Function that takes a number
 and adds a special prefix to it
 '''
 def get_var_name(counter):
@@ -59,109 +48,70 @@ def get_var_name(counter):
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-
-
-
-
-
-
+# multiply two bits together
+# CURRENTLY IN PYTHON, NEED TO CONVERT TO OUTPUTTING NAND
 def two_bits_mult(bit1, bit2):
-
-
-    #print make_AND_statement("test", bit1, bit2)
-
-    #string = "(" + make_AND_statement("test", bit1, bit2) + ") "
-
-
-
-    #return string
-
+    #return "(" + make_AND_statement("test", bit1, bit2) + ") "
     return int(bit1) * int(bit2)
 
-    "bit1 AND bit2"
-    "outputs a bit as a string"
 
-
-
-
-#def shift(storing_array):
-
-    #for index in storing_array:
-
-
-
-    #for index in storing_array:
-    #    storing_array[index] = storing_array[index].append[]
-
-
-
-
+# fill a storing array with sub-arrays of each of the smaller multiplications
+# CURRENTLY IN PYTHON, NEED TO CONVERT TO OUTPUTTING NAND
 def fill_array(num1, num2):
-
-    "num1 is a string of bits (101)"
-    "num2 is a string of bits (1)"
-
-    # get length of
+    # get length of each string of bits
     len1 = len(num1)
     len2 = len(num2)
 
-    array1 = list(num1)
-    array2 = list(num2)
+    # store each string of bits in arrays of single bits
+    arr1 = list(num1)
+    arr2 = list(num2)
 
-#    array1 = list(reversed(array1))
-#    array2 = list(reversed(array2))
+    # create an empty storing array of size 512 that will store 512 sub-arrays
+    # of each of the 512 multiplications
+    storing_arr = [[]] * 512
 
-    storing_array = [[]] * 1024
+    # fill the current array with the result of the multiplication and the
+    # right number of 0 for the power shift
+    for i2 in range(0, len2):
+        # initialize a new array for new multiplication with 0s
+        cur_arr = [0] * 512
 
-    # col_one = [0] * len1
-
-
-    for index2 in range(0, len2):
-
-        array = [5] * 2048
-
-
-        # shift by the right numbers of 0
+        # shift by the right numbers of 0 to account for current power
         for counting in range(0, index2):
-            array[counting] = 0
+            cur_arr[counting] = 0
 
+        # multiply the bits 2 by 2 and put them in the current array
+        for i1 in range(0, len1):
+            cur_array[i1 + i2] = two_bits_mult(arr1[len1 - 1 - i1],
+                                               arr2[len2 - 1 - i2])
 
+        # reverse the current array and store it in our storing array
+        storing_arr[index2] = list(reversed(cur_arr))
 
-        # prints the numbers
-
-    #    for index1 in range(len1, 0):
-    #        r=two_bits_mult(array1[index1],array2[index2])
-
-        for index1 in range(0, len1):
-            r=two_bits_mult(array1[len1 - 1 - index1],array2[len2 - 1 - index2])
-
-
-            # WE want 1 0 1 1 1 1 0 0 0 0 0 0 0 0
-
-        #    col_one
-            array[index1 + len2 - 1] = r
-            print(r, end="")
-
-        #    print(r + (index1 * "0"
-
-        # shift by the right numbers of 0
-    #    for counting in range(0, index2):
-    #        array[len1 + 1 + counting] = 0
-
-
-        #array[len1 + 1: index2]
-        storing_array[index2] = array
-        print(index2 * "0")
-        print(list(reversed(array)))
-
-
-
-#def add_column()
+    return storing_arr
 
 
 
 
-#def add()
+# adds all of the sub-arrays together, NEED TO IMPLEMENT CARRY
+# CURRENTLY IN PYTHON, NEED TO CONVERT TO OUTPUTTING NAND
+def add(storing_array):
+    # get length of the storing array
+    storing_len = len(storing_array)
+
+    # create a new array of the sum of each of the sub-arrays of our
+    # storing array
+    for i in range(0, storing_len - 1):
+        sum_arr = [x + y for x,y in zip(storing_arr[i], storing_arr[i + 1])]
+
+
+
+        """Need to implement the carry function here so that the numbers don't
+        overflow beyond 1. I think we should use modulo 2 and have a variable
+        that keeps tracks of the number of modulos done."""
+
+
+    print(sum_arr)
 
 
 
@@ -175,8 +125,7 @@ writes "NANDproduct.nand"
 def main():
 
 
-
-    fill_array("101111", "111010101")
+    add(fill_array("101111", "11"))
 
 #    inname = sys.argv[1]
 #    name,ext = os.path.splitext(inname)
@@ -189,6 +138,6 @@ def main():
 
 
 
-
+# call program
 if __name__ == "__main__":
     main()
