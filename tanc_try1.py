@@ -146,26 +146,6 @@ def write_XOR_as_NAND(f, line, counter):
     write_NAND_triple(f,output, temp1, temp3)
     return counter + 3
 
-"""
-Takes an OR line and writes a series of NAND lines to file
-"""
-def write_OR_as_NAND(f, line, counter):
-    # TODO
-    output, x_0, x_1 = parse_OR(line)
-    write_OR_triple_as_NAND(f,output,x_0,x_1,counter)
-    return counter
-
-"""
-Takes an OR triple and writes a series of NAND lines to file
-"""
-def write_OR_triple_as_NAND(f,output,input1,input2,counter):
-    # TODO
-    notx_0 = get_var_name(counter)
-    notx_1 = get_var_name(counter+1)
-    write_NAND_triple(f,not1, input1, input1)
-    write_NAND_triple(f,not2,input2, input2)
-    write_NAND_triple(f,output, not1, not2)
-    return counter + 2
 
 """
 Takes a MAJ line and writes a series of NAND lines to file
