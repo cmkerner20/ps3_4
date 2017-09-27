@@ -216,15 +216,16 @@ def get_output_var_name(counter_y):
 def multiply1(f,a,b,counter):
   #initialize array that stores a list of list that contains all the numbers that need to be added
   storing_array  = []
-  print("FIRST TEST FIRST TEST FIRST TEST")
-  print(storing_array)
-
+  print("storing_array")
+  print(str(storing_array))
   shift_counter = 0
 
   #iterate through the numbers
   for x in b:
     #local_list
     curr_array = []
+    print("curr_array")
+    print(str(curr_array))
 
     #add 0 to shift function
     for z in range(shift_counter):
@@ -232,23 +233,29 @@ def multiply1(f,a,b,counter):
     shift_counter += 1
 
     for y in a:
+        print("COUNTER")
+        print(counter)
+        print("before")
+        print(str(curr_array))
         y_var = get_var_name(counter)
         counter += 1
         counter = write_AND_triple_as_NAND(f,y_var,y,x,counter)
         #appending numbers in reverse order
         curr_array.append(y_var)
+        print("after")
+        print(str(curr_array))
+
 
 
     #reverse list
+
     curr_array.reverse()
+    print("REVERESE")
     #calculate zeroes to add to the front of number to make sure all lists are of same length.
-    number_of_zeroes_needed = 10 - len(curr_array)
-    zero_array = [0] * number_of_zeroes_needed
+    number_of_zeroes_needed = 8 - len(curr_array)
+    zero_array = ["z_0"] * number_of_zeroes_needed
     curr_array = zero_array + curr_array
     storing_array.append(curr_array)
-
-  print("SECOND TEST FIRST TEST FIRST TEST")
-  print(storing_array)
   return storing_array
 
 
@@ -256,10 +263,7 @@ def add(f,list_a, list_b,counter):
   #there will probbaly be a big with the counters
   index_counter = 0
   carry_variable  = 0
-  print("LISTAAAAAA")
-  print(list_a)
   list_a.reverse()
-  print("ATHERINE")
   list_b.reverse()
   temp_list = []
   for a,b in zip(list_a, list_b):
@@ -278,20 +282,11 @@ def add(f,list_a, list_b,counter):
 
 def collapse(f,l, counter):
   for x in range(0, len(l)-1):
-    print (str(x) + " x")
-    print("BIG ARRAY")
-    print(l)
     temp = add(f,l[x], l[x+1], counter)
-    print(str(l[x]) + "LXXXX")
-    print(str(l[x+1]) +"LX+1")
-
-    print(str(temp)+ "TEMPPPPP")
     l[x+1] = temp
     if (len(l) == (len(l) - 2)):
-      print ("break")
       return
     else:
-      print ("continue")
       continue
   return l[len(l)-1]
 
@@ -325,7 +320,7 @@ usage: python NANDp2NAND.py "filename.nandp" writes "filename_converted.nand"
 
 def main():
   outfile = open('converted.nand','w')
-  finalmente(outfile,["x_0","x_1","x_2","x_3","x_4","x_5","x_6","x_7","x_8","x_9"],["x_10","x_11","x_12","x_13","x_14","x_15","x_16","x_17","x_18","x_19"],0)
+  finalmente(outfile,["x_0","x_1","x_2","x_3","x_4"],["x_5","x_6","x_7","x_8",],0)
   outfile.close()
 
 if __name__ == "__main__":
