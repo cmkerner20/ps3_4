@@ -255,7 +255,13 @@ def multiply1(f,a,b,counter):
     number_of_zeroes_needed = 8 - len(curr_array)
     zero_array = ["z_0"] * number_of_zeroes_needed
     curr_array = zero_array + curr_array
+    print("STORING ARRAY BEFORE APPENDING")
+    print(storing_array)
     storing_array.append(curr_array)
+    print("STORING ARRAY AFTER APPENDING")
+    print(storing_array)
+    print("__________________________NEW OUTER LOOP _________________________")
+
   return storing_array
 
 
