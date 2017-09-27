@@ -212,12 +212,20 @@ def NANDify(f,prog):
 def get_real_var_name(counter):
     # TODO
     return "u_" + str(counter)
+
+def get_output_var_name(counter):
+    # TODO
+    return "y_" + str(counter)
     #SCOPE OF PYTHON VARIABLES??
 
 def multiply1(f,a,b,counter):
   #initialize array that stores a list of list that contains all the numbers that need to be added
-  storing_array  = [[]] * 10
+  storing_array  = []
+  print("FIRST TEST FIRST TEST FIRST TEST")
+  print(storing_array)
+
   shift_counter = 0
+
   #iterate through the numbers
   for x in b:
     #local_list
@@ -225,7 +233,7 @@ def multiply1(f,a,b,counter):
 
     #add 0 to shift function
     for z in range(shift_counter):
-          curr_array.append('z_0') # this should be an unassigned variable of value = 0
+          curr_array.append("z_0") # this should be an unassigned variable of value = 0
     shift_counter += 1
 
     for y in a:
@@ -243,15 +251,20 @@ def multiply1(f,a,b,counter):
     zero_array = [0] * number_of_zeroes_needed
     curr_array = zero_array + curr_array
     storing_array.append(curr_array)
+
+  print("SECOND TEST FIRST TEST FIRST TEST")
   print(storing_array)
   return storing_array
 
 
-def add(list_a, list_b,counter):
+def add(f,list_a, list_b,counter):
   #there will probbaly be a big with the counters
   index_counter = 0
   carry_variable  = 0
+  print("LISTAAAAAA")
+  print(list_a)
   list_a.reverse()
+  print("ATHERINE")
   list_b.reverse()
   temp_list = []
   for a,b in zip(list_a, list_b):
@@ -259,23 +272,33 @@ def add(list_a, list_b,counter):
     vars2 = get_real_var_name(counter)
     vars3 = get_real_var_name(counter)
 
-    write_XOR_as_NAND(f, (vars1,a, b), counter)
-    write_XOR_as_NAND(f, (vars2, vars1, carry_variable), counter)
+    write_XOR_as_NAND(f, (str(vars1) + " = " + str(a) + " xor " + str(b)), counter)
+    write_XOR_as_NAND(f, (str(vars2) + " = " + str(vars1) + " xor " + str(carry_variable)), counter)
 
-    write_MAJ_as_NAND(F, (vars3, carry_variable,a,b))
+    write_MAJ_as_NAND(f, (str(vars3) + " = maj(" + str(carry_variable) + "," + str(a)+ "," + str(b) + ")"), counter)
     carry_variable = vars3
     temp_list.append(vars2)
-  return temp_list.reverse()
+  return temp_list[::-1]
 
 
-def collapse(l, counter):
-  for x in range(0, len(l)):
-    l[x+1] = add(l[x], l[x+1], counter)
-    if (len(l) == (len(l) - 1)):
-      break
+def collapse(f,l, counter):
+  for x in range(0, len(l)-1):
+    print (str(x) + " x")
+    print("BIG ARRAY")
+    print(l)
+    temp = add(f,l[x], l[x+1], counter)
+    print(str(l[x]) + "LXXXX")
+    print(str(l[x+1]) +"LX+1")
+
+    print(str(temp)+ "TEMPPPPP")
+    l[x+1] = temp
+    if (len(l) == (len(l) - 2)):
+      print ("break")
+      return
     else:
+      print ("continue")
       continue
-  return l[range(l)]
+  return l[len(l)-1]
 
 '''
 def collapse(l, counter):
@@ -289,15 +312,12 @@ def collapse(l, counter):
   '''
 
 
-
-
-
 def finalmente(f,a,b,counter):
   to_add_array = multiply1(f,a,b,counter)
-  binary_list_solution = collapse(to_add_array, counter)
+  binary_list_solution = collapse(f,to_add_array, counter)
   for i in binary_list_solution:
-    a = get_var_name
-    y = get_output_var_name
+    a = get_var_name(counter)
+    y = get_output_var_name(counter)
     write_NAND_triple(f,a,i,i)
     write_NAND_triple(f,y,a,a)
 
@@ -307,7 +327,7 @@ usage: python NANDp2NAND.py "filename.nandp" writes "filename_converted.nand"
 
 def main():
   outfile = open('converted.nand','w')
-  finalmente(outfile,['x_0','x_1','x_2','x_3','x_4','x_5','x_6','x_7','x_8','x_9'],['x_10','x_11','x_12','x_13','x_14','x_15','x_16','x_17','x_18','x_19'],0)
+  finalmente(outfile,["x_0","x_1","x_2","x_3","x_4","x_5","x_6","x_7","x_8","x_9"],["x_10","x_11","x_12","x_13","x_14","x_15","x_16","x_17","x_18","x_19"],0)
   outfile.close()
 
 if __name__ == "__main__":
