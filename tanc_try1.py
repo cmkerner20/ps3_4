@@ -1,4 +1,6 @@
-These make properly formated strings given triples of variables.
+import sys
+import os
+#These make properly formated strings given triples of variables.
 
 def make_AND_statement(output,input1,input2):
     return  "{} := {} AND {}".format(output, input1, input2)
@@ -220,10 +222,10 @@ def multiply1(f,a,b,counter):
   storing_arrray  = [[]] * 512
   shift_counter = 0
   #counter_issues
-for x in b
+  for x in b:
     for y in a:
         curr_array = []
-        for z in range shift_counter:
+        for z in range(shift_counter):
          curr_array.append(zero) # this should be an unassigned variable of value = 0
         y_var = get_real_var_name(counter)
         write_AND_triple_as_NAND(f,y_var,y,x,counter)
@@ -233,51 +235,49 @@ for x in b
     zero_array = [0] * number_of_zeroes_needed
     curr_array = zero_array + curr_array
     storing_arrray.append(curr_array)
-    shift counter += 1
-    return = storing_arrray
+    shift_counter += 1
+  return storing_arrray
 
 
 def add(list_a, list_b,counter):
   #there will probbaly be a big with the counters
   index_counter = 0
+  carry_variable  = 0
   list_a.reverse()
   list_b.reverse()
-  temp_list[]
+  temp_list = []
   for a,b in list_a, list_b:
-    write_XOR_as_NAND(f, NEW_VARIABLE, a,b counter)??
-    write_XOR_as_NAND(f, NEW_NEW_Variable, NEW_VARIABLE, carry_variable, counter)
+    vars1 = get_real_var_name(counter)
+    vars2 = get_real_var_name(counter)
+    vars3 = get_real_var_name
 
-    write_MAJ_as_NAND(F, NEW_NEW_NEW_Variable, carry_variable,a,b)
-    carry_variable = NEW_NEW_NEW_Variable
-    temp_list.append(NEW_NEW_Variable)
+    write_XOR_as_NAND(f, (vars1,a, b), counter)
+    write_XOR_as_NAND(f, (vars2, vars1, carry_variable), counter)
+
+    write_MAJ_as_NAND(F, (vars3, carry_variable,a,b))
+    carry_variable = vars3
+    temp_list.append(vars2)
   return temp_list.reverse()
 
-
-
-
-
-  def collapse(l, counter)
-    for x  in range(l)
+  def collapse(l, counter):
+    for x  in range(l):
       x[l+1] = add(x[l], x[l+1], counter)
-      if l = range(l) - 1
+      if (l == (range(l) - 1)):
         break
       else:
         continue
     return l[range(l)]
 
 
-  def final(f,a,counter)
+  def final(f,a,counter):
     storing_array = multiply1(f,a,b,counter)
     binary_list_solution = collapse(storing_array, counter)
 
     for i in binary_list_solution:
       a = get_var_name
       y = get_output_var_name
-      write write_NAND_triple(f,a,i,i)
-      write write_NAND_triple(f,y,a,a)
-
-
-
+      write_NAND_triple(f,a,i,i)
+      write_NAND_triple(f,y,a,a)
 
 
 
