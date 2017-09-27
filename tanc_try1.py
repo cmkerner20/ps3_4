@@ -238,7 +238,6 @@ def multiply1(f,a,b,counter):
         print("before")
         print(str(curr_array))
         y_var = get_var_name(counter)
-        counter += 1
         counter = write_AND_triple_as_NAND(f,y_var,y,x,counter)
         #appending numbers in reverse order
         curr_array.append(y_var)
