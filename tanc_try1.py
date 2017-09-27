@@ -250,6 +250,7 @@ def multiply1(f,a,b,counter):
 
     curr_array.reverse()
     print("REVERESE")
+    print(curr_array)
     #calculate zeroes to add to the front of number to make sure all lists are of same length.
     number_of_zeroes_needed = 8 - len(curr_array)
     zero_array = ["z_0"] * number_of_zeroes_needed
@@ -319,7 +320,7 @@ usage: python NANDp2NAND.py "filename.nandp" writes "filename_converted.nand"
 
 def main():
   outfile = open('converted.nand','w')
-  finalmente(outfile,["x_0","x_1","x_2","x_3","x_4"],["x_5","x_6","x_7","x_8",],0)
+  finalmente(outfile,["x_0","x_1","x_2","x_3",],["x_4","x_5","x_6","x_7",],0)
   outfile.close()
 
 if __name__ == "__main__":
