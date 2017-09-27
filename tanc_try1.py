@@ -215,23 +215,35 @@ def get_real_var_name(counter):
     #SCOPE OF PYTHON VARIABLES??
 
 def multiply1(f,a,b,counter):
+  #initialize array that stores a list of list that contains all the numbers that need to be added
   storing_arrray  = [[]] * 512
   shift_counter = 0
-  #counter_issues
+  #iterate through the numbers
   for x in b:
+    #local_list
+    curr_array = []
+
+    #add 0 to shift function
+    for z in range(shift_counter):
+          curr_array.append(zero) # this should be an unassigned variable of value = 0
+    shift_counter += 1
+
     for y in a:
-        curr_array = []
-        for z in range(shift_counter):
-         curr_array.append(zero) # this should be an unassigned variable of value = 0
+
         y_var = get_real_var_name(counter)
         write_AND_triple_as_NAND(f,y_var,y,x,counter)
+        #appending numbers in reverse order
         curr_array.append(y_var)
+
+
+    #reverse list
     curr_array.reverse()
+    #calculate zeroes to add to the front of number to make sure all lists are of same length.
     number_of_zeroes_needed = 1024 - len(curr_array)
     zero_array = [0] * number_of_zeroes_needed
     curr_array = zero_array + curr_array
     storing_arrray.append(curr_array)
-    shift_counter += 1
+
   return storing_arrray
 
 
