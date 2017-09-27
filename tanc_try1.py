@@ -188,8 +188,6 @@ def write_MAJ_as_NAND(f, line,counter):
     # TODO
 
 
-
-
 """
 This function should:
     TODO: keep track of counter for new vars
@@ -211,8 +209,6 @@ def NANDify(f,prog):
             write_NAND_line(f,line)
 
 
-
-
 def get_real_var_name(counter):
     # TODO
     return "u_" + str(counter)
@@ -231,7 +227,7 @@ def multiply1(f,a,b,counter):
         write_AND_triple_as_NAND(f,y_var,y,x,counter)
         curr_array.append(y_var)
     curr_array.reverse()
-    number_of_zeroes_needed = 1025 - len(curr_array)
+    number_of_zeroes_needed = 1024 - len(curr_array)
     zero_array = [0] * number_of_zeroes_needed
     curr_array = zero_array + curr_array
     storing_arrray.append(curr_array)
@@ -246,7 +242,7 @@ def add(list_a, list_b,counter):
   list_a.reverse()
   list_b.reverse()
   temp_list = []
-  for a,b in list_a, list_b:
+  for a,b in zip(list_a, list_b):
     vars1 = get_real_var_name(counter)
     vars2 = get_real_var_name(counter)
     vars3 = get_real_var_name
@@ -259,27 +255,36 @@ def add(list_a, list_b,counter):
     temp_list.append(vars2)
   return temp_list.reverse()
 
-  def collapse(l, counter):
-    for x  in range(l):
-      x[l+1] = add(x[l], x[l+1], counter)
-      if (l == (range(l) - 1)):
-        break
-      else:
-        continue
-    return l[range(l)]
+
+def collapse(l, counter):
+  for x in range(0, len(l)):
+    l[x+1] = add(l[x], l[x+1], counter)
+    if (len(l) == (len(l) - 1)):
+      break
+    else:
+      continue
+  return l[range(l)]
+
+'''
+def collapse(l, counter):
+  for x in range(l):
+    l[x+1] = add(l[x], l[x+1], counter)
+    if (l == (range(l) - 1)):
+      break
+    else:
+      continue
+  return l[range(l)]
+  '''
 
 
-  def final(f,a,counter):
-    storing_array = multiply1(f,a,b,counter)
-    binary_list_solution = collapse(storing_array, counter)
-
-    for i in binary_list_solution:
-      a = get_var_name
-      y = get_output_var_name
-      write_NAND_triple(f,a,i,i)
-      write_NAND_triple(f,y,a,a)
-
-
+def finalmente(f,a,b,counter):
+  storing_array = multiply1(f,a,b,counter)
+  binary_list_solution = collapse(storing_array, counter)
+  for i in binary_list_solution:
+    a = get_var_name
+    y = get_output_var_name
+    write_NAND_triple(f,a,i,i)
+    write_NAND_triple(f,y,a,a)
 
 """
 usage: python NANDp2NAND.py "filename.nandp" writes "filename_converted.nand"
@@ -289,8 +294,8 @@ def main():
   name,ext = os.path.splitext(inname)
   with open(inname,'r') as infile:
     prog = infile.readlines()
-  outfile = open(name+'_converted.nand','w')
-  NANDify(outfile,prog)
+  outfile = open(name +'_converted.nand','w')
+  finalmente(outfile,prog,prog,0)
   outfile.close()
 
 if __name__ == "__main__":
