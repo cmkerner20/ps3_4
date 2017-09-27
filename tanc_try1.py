@@ -216,7 +216,7 @@ def get_real_var_name(counter):
 
 def multiply1(f,a,b,counter):
   #initialize array that stores a list of list that contains all the numbers that need to be added
-  storing_arrray  = [[]] * 512
+  storing_array  = [[]] * 10
   shift_counter = 0
   #iterate through the numbers
   for x in b:
@@ -225,7 +225,7 @@ def multiply1(f,a,b,counter):
 
     #add 0 to shift function
     for z in range(shift_counter):
-          curr_array.append(zero) # this should be an unassigned variable of value = 0
+          curr_array.append('z_0') # this should be an unassigned variable of value = 0
     shift_counter += 1
 
     for y in a:
@@ -239,12 +239,12 @@ def multiply1(f,a,b,counter):
     #reverse list
     curr_array.reverse()
     #calculate zeroes to add to the front of number to make sure all lists are of same length.
-    number_of_zeroes_needed = 1024 - len(curr_array)
+    number_of_zeroes_needed = 10 - len(curr_array)
     zero_array = [0] * number_of_zeroes_needed
     curr_array = zero_array + curr_array
-    storing_arrray.append(curr_array)
-
-  return storing_arrray
+    storing_array.append(curr_array)
+  print(storing_array)
+  return storing_array
 
 
 def add(list_a, list_b,counter):
@@ -257,7 +257,7 @@ def add(list_a, list_b,counter):
   for a,b in zip(list_a, list_b):
     vars1 = get_real_var_name(counter)
     vars2 = get_real_var_name(counter)
-    vars3 = get_real_var_name
+    vars3 = get_real_var_name(counter)
 
     write_XOR_as_NAND(f, (vars1,a, b), counter)
     write_XOR_as_NAND(f, (vars2, vars1, carry_variable), counter)
@@ -289,9 +289,12 @@ def collapse(l, counter):
   '''
 
 
+
+
+
 def finalmente(f,a,b,counter):
-  storing_array = multiply1(f,a,b,counter)
-  binary_list_solution = collapse(storing_array, counter)
+  to_add_array = multiply1(f,a,b,counter)
+  binary_list_solution = collapse(to_add_array, counter)
   for i in binary_list_solution:
     a = get_var_name
     y = get_output_var_name
@@ -301,13 +304,10 @@ def finalmente(f,a,b,counter):
 """
 usage: python NANDp2NAND.py "filename.nandp" writes "filename_converted.nand"
 """
+
 def main():
-  inname = sys.argv[1]
-  name,ext = os.path.splitext(inname)
-  with open(inname,'r') as infile:
-    prog = infile.readlines()
-  outfile = open(name +'_converted.nand','w')
-  finalmente(outfile,prog,prog,0)
+  outfile = open('converted.nand','w')
+  finalmente(outfile,['x_0','x_1','x_2','x_3','x_4','x_5','x_6','x_7','x_8','x_9'],['x_10','x_11','x_12','x_13','x_14','x_15','x_16','x_17','x_18','x_19'],0)
   outfile.close()
 
 if __name__ == "__main__":
