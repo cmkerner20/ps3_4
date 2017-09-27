@@ -286,7 +286,7 @@ def add(f,list_a, list_b,counter):
   # print("*****************************************************************")
   #there will probbaly be a big with the counters
   index_counter = 0
-  carry_variable  = get_var_name(counter)
+  carry_variable  = "z_0"
   counter += 1
   list_a.reverse()
   list_b.reverse()
