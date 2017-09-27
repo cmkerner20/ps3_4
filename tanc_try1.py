@@ -345,7 +345,7 @@ usage: python NANDp2NAND.py "filename.nandp" writes "filename_converted.nand"
 
 def main():
   outfile = open('converted.nand','w')
-  finalmente(outfile,["x_0","x_1"],["x_2","x_3"],0)
+  finalmente(outfile,["x_0","x_1"],["x_2"],0)
   outfile.close()
 
 if __name__ == "__main__":
