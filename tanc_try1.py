@@ -27,6 +27,7 @@ Writes NAND triple (not line) to file
 """
 def write_NAND_triple(f,output,x1,x2):
     line = make_NAND_statement(output,x1,x2)
+    print(line)
     write_NAND_line(f,line)
 
 '''
@@ -116,7 +117,6 @@ def get_var_name(counter):
 Takes an AND line and writes a series of NAND lines to file
 """
 def write_AND_as_NAND(f, line, counter):
-    # TODO
     output, x_0, x_1 = parse_AND(line)
     write_AND_triple_as_NAND(f, output,x_0,x_1,counter)
     return counter
@@ -126,7 +126,11 @@ Takes an AND triple and writes a series of NAND lines to file
 """
 def write_AND_triple_as_NAND(f, output,input1,input2,counter):
     # TODO
+    # print("ERROR WITH AND FILE TO DO WITH COUNTER")
+    # print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+    print("AND")
     temp = get_var_name(counter)
+    # print(str(temp),input1, input2)
     write_NAND_triple(f, temp,input1,input2)
     write_NAND_triple(f, output,temp,temp)
     return counter + 1
@@ -136,6 +140,7 @@ Takes an XOR line and writes a series of NAND lines to file
 """
 def write_XOR_as_NAND(f, line, counter):
     # TODO
+    print("XOR")
     output, x_0, x_1 = parse_XOR(line)
     temp1 = get_var_name(counter)
     temp2 = get_var_name(counter+1)
@@ -160,6 +165,7 @@ Takes an OR triple and writes a series of NAND lines to file
 """
 def write_OR_triple_as_NAND(f,output,input1,input2,counter):
     # TODO
+    print("OR")
     notx_0 = get_var_name(counter)
     notx_1 = get_var_name(counter+1)
     write_NAND_triple(f,not1, input1, input1)
@@ -171,6 +177,7 @@ def write_OR_triple_as_NAND(f,output,input1,input2,counter):
 Takes a MAJ line and writes a series of NAND lines to file
 """
 def write_MAJ_as_NAND(f, line,counter):
+  print("MAJ")
   output, input1, input2, input3 = parse_MAJ(line)
   temp0 = get_var_name(counter)
   temp1 = get_var_name(counter+1)
@@ -216,16 +223,16 @@ def get_output_var_name(counter_y):
 def multiply1(f,a,b,counter):
   #initialize array that stores a list of list that contains all the numbers that need to be added
   storing_array  = []
-  print("storing_array")
-  print(str(storing_array))
+  # print("storing_array")
+  # print(str(storing_array))
   shift_counter = 0
 
   #iterate through the numbers
   for x in b:
     #local_list
     curr_array = []
-    print("curr_array")
-    print(str(curr_array))
+    # print("curr_array")
+    # print(str(curr_array))
 
     #add 0 to shift function
     for z in range(shift_counter):
@@ -233,42 +240,54 @@ def multiply1(f,a,b,counter):
     shift_counter += 1
 
     for y in a:
-        print("COUNTER")
-        print(counter)
-        print("before")
-        print(str(curr_array))
+        # print("COUNTER")
+        # print(counter)
+        # print("before")
+        # print(str(curr_array))
         y_var = get_var_name(counter)
         counter = write_AND_triple_as_NAND(f,y_var,y,x,counter)
+        # print("PRINTING AND FUNCTION")
+        # print(y_var)
+        # print(y)
+        # print("AND")
+        # print(x)
+        # print(counter)
+        # print("FINISHED PRINTING AND FUCNTION ")
+
         #appending numbers in reverse order
         curr_array.append(y_var)
-        print("after")
-        print(str(curr_array))
+        # print("after")
+        # print(str(curr_array))
 
 
 
     #reverse list
 
     curr_array.reverse()
-    print("REVERESE")
-    print(curr_array)
+    # print("REVERESE")
+    # print(curr_array)
     #calculate zeroes to add to the front of number to make sure all lists are of same length.
-    number_of_zeroes_needed = 8 - len(curr_array)
+    number_of_zeroes_needed = 4 - len(curr_array)
     zero_array = ["z_0"] * number_of_zeroes_needed
     curr_array = zero_array + curr_array
-    print("STORING ARRAY BEFORE APPENDING")
-    print(storing_array)
+    # print("STORING ARRAY BEFORE APPENDING")
+    # print(storing_array)
     storing_array.append(curr_array)
-    print("STORING ARRAY AFTER APPENDING")
-    print(storing_array)
-    print("__________________________NEW OUTER LOOP _________________________")
+    # print("STORING ARRAY AFTER APPENDING")
+    # print(storing_array)
+    # print("__________________________NEW OUTER LOOP _________________________")
 
   return storing_array
 
 
 def add(f,list_a, list_b,counter):
+  # print("*****************************************************************")
+  # print("ENTERING ADD FUCNTION BEWARE ERROR PROBABLY HERE")
+  # print("*****************************************************************")
   #there will probbaly be a big with the counters
   index_counter = 0
-  carry_variable  = 0
+  carry_variable  = get_var_name(counter)
+  counter += 1
   list_a.reverse()
   list_b.reverse()
   temp_list = []
@@ -277,10 +296,10 @@ def add(f,list_a, list_b,counter):
     vars2 = get_var_name(counter)
     vars3 = get_var_name(counter)
 
-    write_XOR_as_NAND(f, (str(vars1) + " = " + str(a) + " xor " + str(b)), counter)
-    write_XOR_as_NAND(f, (str(vars2) + " = " + str(vars1) + " xor " + str(carry_variable)), counter)
+    counter = write_XOR_as_NAND(f, (str(vars1) + " = " + str(a) + " xor " + str(b)), counter)
+    counter = write_XOR_as_NAND(f, (str(vars2) + " = " + str(vars1) + " xor " + str(carry_variable)), counter)
 
-    write_MAJ_as_NAND(f, (str(vars3) + " = maj(" + str(carry_variable) + "," + str(a)+ "," + str(b) + ")"), counter)
+    counter = write_MAJ_as_NAND(f, (str(vars3) + " = maj(" + str(carry_variable) + "," + str(a)+ "," + str(b) + ")"), counter)
     carry_variable = vars3
     temp_list.append(vars2)
   return temp_list[::-1]
@@ -311,7 +330,7 @@ def collapse(l, counter):
 def finalmente(f,a,b,counter):
   counter_y = 0
   to_add_array = multiply1(f,a,b,counter)
-  binary_list_solution = collapse(f,to_add_array, counter)
+  binary_list_solution = collapse(f,to_add_array, 3)
   for i in binary_list_solution:
     a = get_var_name(counter)
     counter += 1
@@ -326,7 +345,7 @@ usage: python NANDp2NAND.py "filename.nandp" writes "filename_converted.nand"
 
 def main():
   outfile = open('converted.nand','w')
-  finalmente(outfile,["x_0","x_1","x_2","x_3",],["x_4","x_5","x_6","x_7",],0)
+  finalmente(outfile,["x_0","x_1"],["x_2","x_3"],0)
   outfile.close()
 
 if __name__ == "__main__":
