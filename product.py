@@ -1,5 +1,6 @@
 import sys
 import os
+import math
 
 """
 CS121 HW3 2017
@@ -68,7 +69,7 @@ def fill_array(num1, num2):
 
     # create an empty storing array of size 512 that will store 512 sub-arrays
     # of each of the 512 multiplications
-    storing_arr = [[]] * 512
+    storing_arr = [[]] * 4
 
     # fill the current array with the result of the multiplication and the
     # right number of 0 for the power shift
@@ -77,27 +78,42 @@ def fill_array(num1, num2):
         cur_arr = [0] * 512
 
         # shift by the right numbers of 0 to account for current power
-        for counting in range(0, index2):
+        for counting in range(0, i2):
             cur_arr[counting] = 0
 
         # multiply the bits 2 by 2 and put them in the current array
         for i1 in range(0, len1):
-            cur_array[i1 + i2] = two_bits_mult(arr1[len1 - 1 - i1],
-                                               arr2[len2 - 1 - i2])
+            cur_arr[i1 + i2] = two_bits_mult(arr1[len1 - 1 - i1], arr2[len2 - 1 - i2])
 
         # reverse the current array and store it in our storing array
-        storing_arr[index2] = list(reversed(cur_arr))
+        storing_arr[i2] = list(reversed(cur_arr))
 
     return storing_arr
 
 
 
 
+
+def carry(sum_arr):
+
+    reversed_arr = list(reversed(sum_arr))
+    len_arr = len(reversed_arr)
+
+    for i in range(0, len_arr - 1):
+        carry = math.floor(reversed_arr[i] / 2)
+        reversed_arr[i] = reversed_arr[i] % 2
+        reversed_arr[i + 1] = reversed_arr[i + 1] + carry
+
+    return list(reversed(reversed_arr))
+
+
+
+
 # adds all of the sub-arrays together, NEED TO IMPLEMENT CARRY
 # CURRENTLY IN PYTHON, NEED TO CONVERT TO OUTPUTTING NAND
-def add(storing_array):
+def add(storing_arr):
     # get length of the storing array
-    storing_len = len(storing_array)
+    storing_len = len(storing_arr)
 
     # create a new array of the sum of each of the sub-arrays of our
     # storing array
@@ -105,14 +121,16 @@ def add(storing_array):
         sum_arr = [x + y for x,y in zip(storing_arr[i], storing_arr[i + 1])]
 
 
-
-        """Need to implement the carry function here so that the numbers don't
-        overflow beyond 1. I think we should use modulo 2 and have a variable
-        that keeps tracks of the number of modulos done."""
-
-
     print(sum_arr)
 
+
+    final_arr = carry(sum_arr)
+
+
+#    print(final_arr)
+
+
+    return final_arr
 
 
 
@@ -125,7 +143,7 @@ writes "NANDproduct.nand"
 def main():
 
 
-    add(fill_array("101111", "11"))
+    add(fill_array("101111", "1111"))
 
 #    inname = sys.argv[1]
 #    name,ext = os.path.splitext(inname)
