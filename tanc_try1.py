@@ -109,8 +109,7 @@ TODO: Implement a function that takes a number
 and adds a special prefix to it
 '''
 def get_var_name(counter):
-    # TODO
-    return "i_" + str(counter)
+    return "u_" + str(counter)
     #SCOPE OF PYTHON VARIABLES??
 
 """
@@ -209,13 +208,9 @@ def NANDify(f,prog):
             write_NAND_line(f,line)
 
 
-def get_real_var_name(counter):
+def get_output_var_name(counter_y):
     # TODO
-    return "u_" + str(counter)
-
-def get_output_var_name(counter):
-    # TODO
-    return "y_" + str(counter)
+    return "y_" + str(counter_y)
     #SCOPE OF PYTHON VARIABLES??
 
 def multiply1(f,a,b,counter):
@@ -237,9 +232,9 @@ def multiply1(f,a,b,counter):
     shift_counter += 1
 
     for y in a:
-
-        y_var = get_real_var_name(counter)
-        write_AND_triple_as_NAND(f,y_var,y,x,counter)
+        y_var = get_var_name(counter)
+        counter += 1
+        counter = write_AND_triple_as_NAND(f,y_var,y,x,counter)
         #appending numbers in reverse order
         curr_array.append(y_var)
 
@@ -268,9 +263,9 @@ def add(f,list_a, list_b,counter):
   list_b.reverse()
   temp_list = []
   for a,b in zip(list_a, list_b):
-    vars1 = get_real_var_name(counter)
-    vars2 = get_real_var_name(counter)
-    vars3 = get_real_var_name(counter)
+    vars1 = get_var_name(counter)
+    vars2 = get_var_name(counter)
+    vars3 = get_var_name(counter)
 
     write_XOR_as_NAND(f, (str(vars1) + " = " + str(a) + " xor " + str(b)), counter)
     write_XOR_as_NAND(f, (str(vars2) + " = " + str(vars1) + " xor " + str(carry_variable)), counter)
@@ -313,11 +308,14 @@ def collapse(l, counter):
 
 
 def finalmente(f,a,b,counter):
+  counter_y = 0
   to_add_array = multiply1(f,a,b,counter)
   binary_list_solution = collapse(f,to_add_array, counter)
   for i in binary_list_solution:
     a = get_var_name(counter)
-    y = get_output_var_name(counter)
+    counter += 1
+    y = get_output_var_name(counter_y)
+    counter_y += 1
     write_NAND_triple(f,a,i,i)
     write_NAND_triple(f,y,a,a)
 
